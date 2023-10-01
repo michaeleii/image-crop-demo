@@ -7,6 +7,8 @@ import {
   Cropper,
   CropperPreview,
   Coordinates,
+  CircleStencil,
+  RectangleStencil,
 } from "react-advanced-cropper";
 import "react-advanced-cropper/dist/style.css";
 
@@ -31,6 +33,8 @@ export const CropContainer = () => {
     "https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
   );
   const [src, setSrc] = useState(image);
+
+  const [isCircle, setIsCircle] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -86,6 +90,7 @@ export const CropContainer = () => {
           <Cropper
             src={image}
             ref={cropperRef}
+            stencilComponent={isCircle ? CircleStencil : RectangleStencil}
             className={"cropper"}
             stencilProps={{ grid: true }}
             onUpdate={onUpdate}
@@ -109,10 +114,10 @@ export const CropContainer = () => {
           </div> */}
         </div>
         <div className="mt-3 flex justify-center gap-5">
-          <Button onClick={() => flip(true, false)}>
+          <Button onClick={() => setIsCircle(false)}>
             <BoxSelect />
           </Button>
-          <Button onClick={() => flip(true, false)}>
+          <Button onClick={() => setIsCircle(true)}>
             <CircleDashed />
           </Button>
           <Button onClick={() => flip(true, false)}>
