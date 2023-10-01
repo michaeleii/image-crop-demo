@@ -6,6 +6,7 @@ import {
   CropperPreviewRef,
   Cropper,
   CropperPreview,
+  Coordinates,
 } from "react-advanced-cropper";
 import "react-advanced-cropper/dist/style.css";
 
@@ -14,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 
 import {
+  BoxSelect,
   CircleDashed,
   FlipHorizontal,
   FlipVertical,
@@ -51,7 +53,10 @@ export const CropContainer = () => {
       const newTab = window.open();
       if (newTab) {
         newTab.document.body.innerHTML = `<img src="${cropperRef.current
-          .getCanvas()
+          .getCanvas({
+            maxWidth: 500,
+            maxHeight: 500,
+          })
           ?.toDataURL()}"/>`;
       }
     }
@@ -66,7 +71,7 @@ export const CropContainer = () => {
       <div>
         <form className="mb-5 space-y-2" onSubmit={handleSubmit}>
           <Label htmlFor="imgUrl">Choose an image</Label>
-          <div className="grid xl:grid-cols-2 gap-2">
+          <div className="grid xl:grid-cols-[1fr_150px] gap-2">
             <Input
               id="imgUrl"
               type="url"
@@ -82,7 +87,7 @@ export const CropContainer = () => {
             src={image}
             ref={cropperRef}
             className={"cropper"}
-            stencilProps={{ aspectRatio: 1 }}
+            stencilProps={{ grid: true }}
             onUpdate={onUpdate}
           />
           {/* <div className="absolute left-[10px] top-1/2 -translate-y-1/2 flex flex-col gap-2">
@@ -105,6 +110,9 @@ export const CropContainer = () => {
         </div>
         <div className="mt-3 flex justify-center gap-5">
           <Button onClick={() => flip(true, false)}>
+            <BoxSelect />
+          </Button>
+          <Button onClick={() => flip(true, false)}>
             <CircleDashed />
           </Button>
           <Button onClick={() => flip(true, false)}>
@@ -126,11 +134,13 @@ export const CropContainer = () => {
       </div>
       <div>
         <h2 className="text-xl mb-3">Preview</h2>
-        <CropperPreview
-          ref={previewRef}
-          cropper={cropperRef}
-          className="aspect-square max-w-lg"
-        />
+        <div className="border">
+          <CropperPreview
+            ref={previewRef}
+            cropper={cropperRef}
+            className="aspect-square max-w-lg"
+          />
+        </div>
       </div>
     </div>
   );
