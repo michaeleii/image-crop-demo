@@ -25,6 +25,7 @@ import {
   RotateCw,
   SaveIcon,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export const CropContainer = () => {
   const previewRef = useRef<CropperPreviewRef>(null);
@@ -60,6 +61,8 @@ export const CropContainer = () => {
           .getCanvas({
             maxWidth: 500,
             maxHeight: 500,
+            imageSmoothingEnabled: true,
+            imageSmoothingQuality: "high",
           })
           ?.toDataURL()}"/>`;
       }
@@ -92,7 +95,7 @@ export const CropContainer = () => {
             ref={cropperRef}
             stencilComponent={isCircle ? CircleStencil : RectangleStencil}
             className={"cropper"}
-            stencilProps={{ grid: true }}
+            stencilProps={{ grid: true, aspectRatio: 1 / 1 }}
             onUpdate={onUpdate}
           />
           {/* <div className="absolute left-[10px] top-1/2 -translate-y-1/2 flex flex-col gap-2">
@@ -143,7 +146,9 @@ export const CropContainer = () => {
           <CropperPreview
             ref={previewRef}
             cropper={cropperRef}
-            className="aspect-square max-w-lg"
+            className={cn("max-w-sm mx-auto", {
+              "rounded-full": isCircle,
+            })}
           />
         </div>
       </div>
