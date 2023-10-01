@@ -1,7 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
-import { CropperRef, Cropper, CropperPreview } from "react-advanced-cropper";
+import React, { useState, useRef } from "react";
+import {
+  CropperRef,
+  CropperPreviewRef,
+  Cropper,
+  CropperPreview,
+} from "react-advanced-cropper";
 import "react-advanced-cropper/dist/style.css";
 
 import { Input } from "@/components/ui/input";
@@ -12,33 +17,18 @@ import {
   CircleDashed,
   FlipHorizontal,
   FlipVertical,
-  RectangleHorizontal,
-  RectangleHorizontalIcon,
   RotateCcw,
   RotateCw,
   SaveIcon,
 } from "lucide-react";
 
-interface PreviewState {
-    state: CropperState | null;
-    image: CropperImage | null;
-    transitions: CropperTransitions | null;
-    loading?: false;
-    loaded?: false;
-}
-
 export const CropContainer = () => {
+  const previewRef = useRef<CropperPreviewRef>(null);
   const cropperRef = React.useRef<CropperRef>(null);
   const [image, setImage] = useState(
     "https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
   );
   const [src, setSrc] = useState(image);
-   const [previewState, setPreviewState] = useState<PreviewState>({
-        state: null,
-        image: null,
-        transitions: null
-    });
-    
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -56,16 +46,6 @@ export const CropContainer = () => {
     }
   };
 
-      const onUpdate = () => {
-        setPreviewState({
-            state: cropper.getState(),
-            image: cropper.getImage(),
-            transitions: cropper.getTransitions(),
-            loaded: cropper.isLoaded(),
-            loading: cropper.isLoading(),
-        });
-    }
-
   const download = () => {
     if (cropperRef.current) {
       const newTab = window.open();
@@ -75,6 +55,10 @@ export const CropContainer = () => {
           ?.toDataURL()}"/>`;
       }
     }
+  };
+
+  const onUpdate = () => {
+    previewRef.current?.refresh();
   };
 
   return (
@@ -94,7 +78,13 @@ export const CropContainer = () => {
           </div>
         </form>
         <div className="h-[600px] overflow-hidden relative">
-          <Cropper src={image} ref={cropperRef} className={"cropper"}  onUpdate={onUpdate} />
+          <Cropper
+            src={image}
+            ref={cropperRef}
+            className={"cropper"}
+            stencilProps={{ aspectRatio: 1 }}
+            onUpdate={onUpdate}
+          />
           {/* <div className="absolute left-[10px] top-1/2 -translate-y-1/2 flex flex-col gap-2">
             <Button onClick={() => flip(true, false)}>
               <FlipHorizontal />
@@ -114,9 +104,6 @@ export const CropContainer = () => {
           </div> */}
         </div>
         <div className="mt-3 flex justify-center gap-5">
-          <Button onClick={() => flip(true, false)}>
-            < />
-          </Button>
           <Button onClick={() => flip(true, false)}>
             <CircleDashed />
           </Button>
@@ -139,11 +126,11 @@ export const CropContainer = () => {
       </div>
       <div>
         <h2 className="text-xl mb-3">Preview</h2>
-               <CropperPreview
-                ref={previewRef}
-                className="preview"
-                {...previewState}
-            />
+        <CropperPreview
+          ref={previewRef}
+          cropper={cropperRef}
+          className="aspect-square max-w-lg"
+        />
       </div>
     </div>
   );
