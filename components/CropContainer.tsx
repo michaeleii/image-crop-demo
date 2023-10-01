@@ -116,7 +116,7 @@ export const CropContainer = () => {
             </Button>
           </div> */}
         </div>
-        <div className="mt-3 flex justify-center gap-5">
+        <div className="mt-3 flex justify-center flex-wrap gap-5">
           <Button onClick={() => setIsCircle(false)}>
             <BoxSelect />
           </Button>
