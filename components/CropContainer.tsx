@@ -80,6 +80,7 @@ export const CropContainer = () => {
           <Label htmlFor="imgUrl">Choose an image</Label>
           <div className="grid xl:grid-cols-[1fr_150px] gap-2">
             <Input
+              className="text-base"
               id="imgUrl"
               type="url"
               placeholder="Enter image url"
