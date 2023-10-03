@@ -59,10 +59,8 @@ export const CropContainer = () => {
       if (newTab) {
         newTab.document.body.innerHTML = `<img src="${cropperRef.current
           .getCanvas({
-            maxWidth: 500,
-            maxHeight: 500,
-            imageSmoothingEnabled: true,
-            imageSmoothingQuality: "high",
+            maxHeight: 1000,
+            maxWidth: 1000,
           })
           ?.toDataURL()}"/>`;
       }
@@ -74,29 +72,16 @@ export const CropContainer = () => {
   };
 
   return (
-    <div className="space-y-5">
-      <div>
-        <form className="mb-5 space-y-2" onSubmit={handleSubmit}>
-          <Label htmlFor="imgUrl">Choose an image</Label>
-          <div className="grid xl:grid-cols-[1fr_150px] gap-2">
-            <Input
-              className="text-base"
-              id="imgUrl"
-              type="url"
-              placeholder="Enter image url"
-              value={src}
-              onChange={(e) => setSrc(e.target.value)}
-            />
-            <Button className="xl:w-[150px]">Use Image</Button>
-          </div>
-        </form>
+    <div className="space-y-5 flex flex-col md:flex-row gap-10 items-start">
+      <div className="max-w-xl">
+        <h2 className="text-xl mb-3">Input</h2>
         <div className="h-[600px] overflow-hidden relative">
           <Cropper
             src={image}
             ref={cropperRef}
             stencilComponent={isCircle ? CircleStencil : RectangleStencil}
             className={"cropper"}
-            stencilProps={{ grid: true, aspectRatio: 1 / 1 }}
+            stencilProps={{ grid: true }}
             onUpdate={onUpdate}
           />
           {/* <div className="absolute left-[10px] top-1/2 -translate-y-1/2 flex flex-col gap-2">
@@ -140,6 +125,20 @@ export const CropContainer = () => {
             <SaveIcon />
           </Button>
         </div>
+        <form className="my-5 space-y-2" onSubmit={handleSubmit}>
+          <Label htmlFor="imgUrl">Choose an image</Label>
+          <div className="grid xl:grid-cols-[1fr_150px] gap-2">
+            <Input
+              className="text-base"
+              id="imgUrl"
+              type="url"
+              placeholder="Enter image url"
+              value={src}
+              onChange={(e) => setSrc(e.target.value)}
+            />
+            <Button className="xl:w-[150px]">Use Image</Button>
+          </div>
+        </form>
       </div>
       <div>
         <h2 className="text-xl mb-3">Preview</h2>
