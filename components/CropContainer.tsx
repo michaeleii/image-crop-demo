@@ -18,12 +18,15 @@ import { Button } from "@/components/ui/button";
 
 import {
   BoxSelect,
+  Camera,
   CircleDashed,
+  FilePlus,
   FlipHorizontal,
   FlipVertical,
   RotateCcw,
   RotateCw,
   SaveIcon,
+  Trash2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -72,8 +75,8 @@ export const CropContainer = () => {
   };
 
   return (
-    <div className="space-y-5 flex flex-col md:flex-row gap-10 items-start">
-      <div className="max-w-xl">
+    <div className="md:flex flex-col xl:flex-row gap-10 items-start">
+      <div className="max-w-xl xl:border-r xl:pr-10">
         <h2 className="text-xl mb-3">Input</h2>
         <div className="h-[600px] overflow-hidden relative">
           <Cropper
@@ -139,10 +142,46 @@ export const CropContainer = () => {
             <Button className="xl:w-[150px]">Use Image</Button>
           </div>
         </form>
+        {/* Image Upload */}
+        {/* <label htmlFor="image">
+          <div
+            role="presentation"
+            className="my-5 p-4 border border-gray-300 border-dashed hover:border-gray-900 cursor-pointer group-data-[disabled=true]:cursor-not-allowed group-data-[disabled=true]:hover:border-gray-700 transition-colors"
+          >
+            <input type="file" id="image" hidden />
+            <p className="text-sm text-gray-600 flex items-center gap-2 select-none">
+              <FilePlus className="h-5 w-5" />
+              Drop a file or click to upload
+            </p>
+            <div className="flex items-center mt-1 overflow-hidden">
+              <div className="truncate min-w-0">
+                <p className="text-sm text-gray-500 truncate">{image}</p>
+              </div>
+              <div className="flex-shrink-0 ml-2">
+                <button
+                  className="w-6 h-6 rounded-full hover:bg-gray-200 flex items-center justify-center"
+                  type="button"
+                >
+                  <Trash2 className="h-4 w-4 text-gray-500" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </label> */}
+        {/* Webcam */}
+        {/* <Button
+          variant="outline"
+          className="p-4 w-full h-full disabled:cursor-not-allowed"
+        >
+          <p className="text-sm text-gray-600 font-normal select-none flex items-center gap-2">
+            <Camera className="h-4 w-4" />
+            Take a photo with your webcam
+          </p>
+        </Button> */}
       </div>
-      <div>
+      <div className="">
         <h2 className="text-xl mb-3">Preview</h2>
-        <div className="border">
+        <div>
           <CropperPreview
             ref={previewRef}
             cropper={cropperRef}
