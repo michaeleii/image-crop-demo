@@ -17,8 +17,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className="pt-10 pb-5 px-5 max-w-7xl mx-auto">
-          <h1 className="text-4xl text-center xl:text-7xl font-bold tracking-tighter">
+        <header className="pt-10 px-5 max-w-7xl mx-auto">
+          <h1 className="text-4xl text-center xl:text-5xl font-bold tracking-tighter">
             Image Crop Demo
           </h1>
         </header>
