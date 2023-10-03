@@ -78,7 +78,7 @@ export const CropContainer = () => {
     <div className="md:flex flex-col xl:flex-row gap-10 items-start">
       <div className="max-w-xl xl:border-r xl:pr-10">
         <h2 className="text-xl mb-3">Input</h2>
-        <div className="h-[600px] overflow-hidden relative">
+        <div className="xl:h-[600px] overflow-hidden relative">
           <Cropper
             src={image}
             ref={cropperRef}
