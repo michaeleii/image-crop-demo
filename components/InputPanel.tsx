@@ -43,18 +43,15 @@ export default function InputPanel({
       //     form.append("image", blob);
       //   }
       // }, "image/png");
-      const res = await fetch(
-        `${location.origin}/api/generate/classification`,
-        {
-          method: "POST",
-          body: JSON.stringify({ image }),
-        }
-      );
+      const res = await fetch("/api/generate/classification", {
+        method: "POST",
+        body: JSON.stringify({ image }),
+      });
       const data = await res.json();
       const classifications = data.categories;
       setClassification(classifications);
 
-      const res2 = await fetch(`${location.origin}/api/generate/sound`, {
+      const res2 = await fetch("/api/generate/sound", {
         method: "POST",
         body: JSON.stringify({ classification: classifications[0].name }),
       });
