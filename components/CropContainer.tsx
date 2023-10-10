@@ -7,17 +7,10 @@ import InputPanel from "./InputPanel";
 import PreviewPanel from "./PreviewPanel";
 import Loading from "./Loading";
 
-// export type Classification = {
-//   name: string;
-//   confidence: number;
-// };
-
 export const CropContainer = () => {
   const previewRef = useRef<CropperPreviewRef>(null);
   const cropperRef = React.useRef<CropperRef>(null);
-  // const [classification, setClassification] = React.useState<Classification[]>(
-  //   []
-  // );
+
   const [caption, setCaption] = useState("");
   const [sound, setSound] = useState("");
   const [isLoading, setIsLoading] = useState(false);
