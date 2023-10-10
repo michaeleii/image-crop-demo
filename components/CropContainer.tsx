@@ -33,7 +33,7 @@ export const CropContainer = () => {
       />
       <PreviewPanel previewRef={previewRef} cropperRef={cropperRef} />
       <div>
-        {caption.length > 0 && <p>{caption}</p>}
+        {caption.length > 0 && <p className="mb-3">{caption}</p>}
         {isLoading && <Loading />}
         {!isLoading && sound.length > 0 && (
           <audio controls className="w-[300px] mt-5 mx-auto">
