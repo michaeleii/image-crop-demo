@@ -7,7 +7,7 @@ export const generateSound = async (prompt: string) =>
   await replicate.run(model, {
     input: {
       prompt,
-      duration: 5,
+      duration: 3,
       top_k: 250,
       top_p: 0,
       temperature: 1,
