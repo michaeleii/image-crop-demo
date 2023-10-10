@@ -31,19 +31,19 @@ export default function InputPanel({
     setIsLoading(true);
     if (cropperRef.current) {
       try {
-        let res = await fetch("/api/generate/classification", {
+        const res1 = await fetch("/api/generate/classification", {
           method: "POST",
           body: JSON.stringify({ image }),
         });
-        const data = await res.json();
-        const caption = data.output;
+        const data = await res1.json();
+        const caption = String(data.output);
         setCaption(caption);
 
-        res = await fetch("/api/generate/sound", {
+        const res2 = await fetch("/api/generate/sound", {
           method: "POST",
-          body: JSON.stringify({ caption: caption.ToString() }),
+          body: JSON.stringify({ caption }),
         });
-        const { output } = await res.json();
+        const { output } = await res2.json();
 
         setSound(output);
 
