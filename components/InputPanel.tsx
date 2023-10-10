@@ -4,12 +4,11 @@ import { Cropper, CropperPreviewRef, CropperRef } from "react-advanced-cropper";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import ImageForm from "./ImageForm";
-import { Classification } from "./CropContainer";
 
 type InputPanelProps = {
   previewRef: React.RefObject<CropperPreviewRef>;
   cropperRef: React.RefObject<CropperRef>;
-  setClassification: React.Dispatch<React.SetStateAction<Classification[]>>;
+  setCaption: React.Dispatch<React.SetStateAction<string>>;
   setSound: React.Dispatch<React.SetStateAction<string>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -17,7 +16,7 @@ type InputPanelProps = {
 export default function InputPanel({
   previewRef,
   cropperRef,
-  setClassification,
+  setCaption,
   setSound,
   setIsLoading,
 }: InputPanelProps) {
@@ -31,29 +30,17 @@ export default function InputPanel({
   const download = async () => {
     setIsLoading(true);
     if (cropperRef.current) {
-      const canvas = cropperRef.current.getCanvas({
-        maxHeight: 1000,
-        maxWidth: 1000,
-      });
-      // const form = new FormData();
-      // canvas?.toBlob(async (blob) => {
-      //   if (blob) {
-      //     const url = URL.createObjectURL(blob);
-      //     console.log(url);
-      //     form.append("image", blob);
-      //   }
-      // }, "image/png");
       const res = await fetch("/api/generate/classification", {
         method: "POST",
         body: JSON.stringify({ image }),
       });
       const data = await res.json();
-      const classifications = data.categories;
-      setClassification(classifications);
+      const caption = data.output;
+      setCaption(caption);
 
       const res2 = await fetch("/api/generate/sound", {
         method: "POST",
-        body: JSON.stringify({ classification: classifications[0].name }),
+        body: JSON.stringify({ classification: caption }),
       });
       const { output } = await res2.json();
 
