@@ -30,25 +30,30 @@ export default function InputPanel({
   const download = async () => {
     setIsLoading(true);
     if (cropperRef.current) {
-      let res = await fetch("/api/generate/classification", {
-        method: "POST",
-        body: JSON.stringify({ image }),
-      });
-      const data = await res.json();
-      const caption = data.output;
-      setCaption(caption);
+      try {
+        let res = await fetch("/api/generate/classification", {
+          method: "POST",
+          body: JSON.stringify({ image }),
+        });
+        const data = await res.json();
+        const caption = data.output;
+        setCaption(caption);
 
-      res = await fetch("/api/generate/sound", {
-        method: "POST",
-        body: JSON.stringify({ caption }),
-      });
-      const { output } = await res.json();
+        res = await fetch("/api/generate/sound", {
+          method: "POST",
+          body: JSON.stringify({ caption: caption.ToString() }),
+        });
+        const { output } = await res.json();
 
-      setSound(output);
-      setIsLoading(false);
+        setSound(output);
 
-      const audio = new Audio(output);
-      await audio.play();
+        const audio = new Audio(output);
+        await audio.play();
+      } catch (error: any) {
+        console.error(error.message);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
   return (
